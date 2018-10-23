@@ -26,87 +26,75 @@ describe('Main navigation check',function(){
 
     it('Can see top menu',async function () {
         return driver.get(OPTIONS.site)
-            .then(_=> driver.wait(until.elementLocated(By.css('.main-nav'))),6000)
-            .then(_=> driver.findElement(By.css('.main-nav')))
+            .then(()=> driver.wait(until.elementLocated(By.css('.main-nav li'))))
     });
 
     it('Can enter model series', function () {
         let sectionTitle = 'Модельный ряд';
         return driver.get(OPTIONS.site)
-            .then(_ => driver.findElement(By.css('.main-nav li:nth-child(2) a')))
-            .then(_ => driver.findElement(By.css('.main-nav li:nth-child(2) a')).click())
-            .then(_=> driver.wait(until.elementLocated(By.css('.section-title h1'))))
-            .then(_=> driver.sleep(2000))
-            .then(_ => driver.findElement(By.css('h1')).getText())
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(2) a')).click())
+            .then(() => driver.wait(until.elementLocated(By.css('.l-m-item'))))
+            .then(() => driver.findElement(By.css('.section-title h1')).getText())
             .then(title=>{
-                console.log(title);
-                assert.equal(title, sectionTitle, 'title is not defined')
+                assert.equal(title, sectionTitle, 'section title is not defined')
             })
     });
     it('Can enter gallery', function () {
         let sectionTitle = 'Галерея';
         return driver.get(OPTIONS.site)
-            .then(_ => driver.findElement(By.css('.main-nav li:nth-child(3) a')))
-            .then(_ => driver.findElement(By.css('.main-nav li:nth-child(3) a')).click())
-            .then(_=> driver.wait(until.elementLocated(By.css('.section-title'))))
-            .then(_=> driver.sleep(2000))
-            .then(_ => driver.findElement(By.css('.section-title h1')).getText())
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(3) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.img'))))
+            .then(() => driver.findElement(By.css('.section-title h1')).getText())
             .then(title=>{
-                console.log(title);
-                assert.equal(title, sectionTitle, 'title is not defined')
+                assert.equal(title, sectionTitle, 'section title is not defined')
             })
     });
     it('Can enter aboutUs', function () {
         let sectionTitle = 'О нас';
         return driver.get(OPTIONS.site)
-            .then(_ => driver.findElement(By.css('.main-nav li:nth-child(4) a')))
-            .then(_ => driver.findElement(By.css('.main-nav li:nth-child(4) a')).click())
-            .then(_=> driver.wait(until.elementLocated(By.css('.section-title'))))
-            .then(_=> driver.sleep(2000))
-            .then(_ => driver.findElement(By.css('.section-title h1')).getText())
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(4) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.filter-list'))))
+            .then(() => driver.findElement(By.css('main .section-title h1')).getText())
             .then(title=>{
-                console.log(title);
-                assert.equal(title, sectionTitle, 'title is not defined')
+                assert.equal(title, sectionTitle, 'section title is not defined')
             })
     });
     it('Can enter questions', function () {
         let sectionTitle = 'Вопросы и ответы';
         return driver.get(OPTIONS.site)
-            .then(_ => driver.findElement(By.css('.main-nav li:nth-child(5) a')))
-            .then(_ => driver.findElement(By.css('.main-nav li:nth-child(5) a')).click())
-            .then(_=> driver.wait(until.elementLocated(By.css('.section-title'))))
-            .then(_=> driver.sleep(2000))
-            .then(_ => driver.findElement(By.css('.section-title h1')).getText())
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(5) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.column'))))
+            .then(() => driver.findElement(By.css('.section-title h1')).getText())
             .then(title=>{
-                console.log(title);
                 assert.equal(title, sectionTitle, 'title is not defined')
             })
     });
     it('Can enter contacts', function () {
         let sectionTitle = 'Наши салоны продаж';
         return driver.get(OPTIONS.site)
-            .then(_ => driver.findElement(By.css('.main-nav li:nth-child(6) a')))
-            .then(_ => driver.findElement(By.css('.main-nav li:nth-child(6) a')).click())
-            .then(_=> driver.wait(until.elementLocated(By.css('.section-title'))))
-            .then(_=> driver.sleep(2000))
-            .then(_ => driver.findElement(By.css('.section-title h1')).getText())
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(6) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.filter-list'))))
+            .then(() => driver.findElement(By.css('.section-title h1')).getText())
             .then(title=>{
-                console.log(title);
                 assert.equal(title, sectionTitle, 'title is not defined')
             })
     });
     it('Can return on MainPage', function () {
         let sectionTitle = 'до его установки и после...';
         return driver.get(OPTIONS.site+ 'kontakty')
-            .then(_ => driver.findElement(By.css('.main-nav li:nth-child(1) a')))
-            .then(_ => driver.findElement(By.css('.main-nav li:nth-child(1) a')).click())
-            .then(_=> driver.wait(until.elementLocated(By.css('.screen span'))))
-            .then(_=> driver.sleep(2000))
-            .then(_ => driver.findElement(By.css('.screen span')).getText())
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(1) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.screen span'))))
+            .then(() => driver.findElement(By.css('.screen span')).getText())
             .then(title=>{
-                console.log(title);
                assert.equal(title, sectionTitle, 'title is not defined')
             })
     });
 
+
+    function getElementByCss(path) {
+        return driver.wait(until.elementLocated(By.css(path)))
+            .then(()=> driver.findElement(By.css(path)));
+    }
 });
+
+
