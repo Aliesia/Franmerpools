@@ -5,7 +5,7 @@ const By = webdriver.By;
 const until = webdriver.until;
 const chrome = require('selenium-webdriver/chrome');
 const OPTIONS = {
-    site: 'http://franmer.breakdownfx.com/',
+    site: 'https://www.franmerpools.ru/',
     screen:{
         width: 1280,
         height: 720
