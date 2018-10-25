@@ -5,7 +5,7 @@ const By = webdriver.By;
 const until = webdriver.until;
 const chrome = require('selenium-webdriver/chrome');
 const OPTIONS = {
-    site: 'https://www.franmerpools.ru/',
+    site: 'http://franmer.breakdownfx.com/',
     screen:{
         width: 1280,
         height: 720
@@ -132,6 +132,7 @@ describe('Main page functionality',function() {
     });
     // TODO:: How the svg-button is working?
     // TODO:: should I test if map is working properly?
+
     it('Can see map on second template', function(){
         return driver.get(OPTIONS.site)
             .then(() => driver.wait(until.elementLocated(By.css('h2'))))
@@ -184,7 +185,6 @@ describe('Main page functionality',function() {
             .then(tempData => initialHuman = tempData)
             .then(()=> driver.findElement(By.css('#secTeam #teamWrap ul li:nth-child(2)')).getAttribute('data-n'))
             .then(newHuman => assert.notEqual(newHuman,initialHuman, 'Human can not be found'))
-            //.catch(()=> assert.ok(false, 'Image is not found'))
     });
 
     it('Can see form on template 6', function () {
@@ -216,8 +216,8 @@ describe('Main navigation templates',function(){
     it('Can see filter of models', function () {
         return driver.get(OPTIONS.site)
             .then(async() => (await getElementByCss('.main-nav li:nth-child(2) a')).click())
-            .then(()=> driver.wait(until.elementLocated(By.css('.filter-list li:nth-child(1)'))))
-            .then(()=> driver.findElement(By.css('.filter-list')))
+            .then(()=> driver.wait(until.elementLocated(By.css('.filter-list li:nth-child(2)'))))
+            .then(()=> driver.findElement(By.css('.filter-list li:nth-child(2)')).click())
             .catch(()=> assert.ok(false, 'Can not find element on page'))
     });
     it('Can see models on model series', function () {
@@ -291,5 +291,125 @@ describe('Main navigation templates',function(){
 
 
 
+    it('Can see picture in Gallery', function(){
+        return driver.get(OPTIONS.site)
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(3) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.slider-line .list-img-gal img'))))
+            .then(()=> driver.findElement(By.css('.slider-line .list-img-gal img')).click())
+            .then(()=> driver.sleep(1000))
+            .then(()=> driver.wait(until.elementLocated(By.css('.psh-closer'))))
+            .then(()=> driver.findElement(By.css('.psh-closer')).click())
+            .catch(()=> assert.ok(false, 'Can not find picture to open on full screen in Gallery'))
+    });
+    it('Can see all pictures in Gallery', function(){
+        return driver.get(OPTIONS.site)
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(3) a')).click())
+            .then(()=> driver.sleep(1000))
+            .then(()=> driver.wait(until.elementLocated(By.css('.one-line-gal .slider-line .btn-open'))))
+            .then(()=> driver.findElement(By.css('.one-line-gal .slider-line .btn-open')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.header-line span'))))
+            .catch(()=> assert.ok(false, 'Can not open full list of pictures in Gallery'))
+    });
+
+    it('Can see filter of information about us', function () {
+        return driver.get(OPTIONS.site)
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(4) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.filter-list li:nth-child(2)'))))
+            .then(()=> driver.findElement(By.css('.filter-list li:nth-child(2)')).click())
+            .catch(()=> assert.ok(false, 'Can not find element on page'))
+    });
+    it('Can see text in about us', function () {
+        return driver.get(OPTIONS.site)
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(4) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.section-content .holder p'))))
+            .then(()=> driver.findElement(By.css('.section-content .holder p')))
+            .catch(()=> assert.ok(false, 'Can not find text on page'))
+    });
+    it('Can see picture in about us', function () {
+        return driver.get(OPTIONS.site)
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(4) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.thumbnails-slider .thumb-holder #article-gallery li picture img'))))
+            .then(()=> driver.findElement(By.css('.thumbnails-slider .thumb-holder #article-gallery li picture img')).click())
+            .then(()=> driver.sleep(2000))
+            .then(()=> driver.wait(until.elementLocated(By.css('.psh-closer'))))
+            .then(()=> driver.findElement(By.css('.psh-closer')).click())
+            .catch(()=> assert.ok(false, 'Can not find pictures on page'))
+    });
+    it('Can see text template in about us', function () {
+        return driver.get(OPTIONS.site)
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(4) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.filter-list li:nth-child(2)'))))
+            .then(()=> driver.findElement(By.css('.filter-list li:nth-child(2)')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.section-content .holder ul li'))))
+            .then(()=> driver.findElement(By.css('.section-content .holder ul li')))
+            .catch(()=> assert.ok(false, 'Can not find text on page'))
+    });
+    it('Can see text template with picture in about us', function () {
+        return driver.get(OPTIONS.site)
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(4) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.filter-list li:nth-child(3)'))))
+            .then(()=> driver.findElement(By.css('.filter-list li:nth-child(3)')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.section-content .holder p'))))
+            .then(()=> driver.findElement(By.css('.section-content .holder p')))
+            .then(()=> driver.sleep(1000))
+            .then(()=> driver.wait(until.elementLocated(By.css('.thumb-holder ul li picture img'))))
+            .then(()=> driver.findElement(By.css('.thumb-holder ul li picture img')).click())
+            .then(()=> driver.sleep(2000))
+            .then(()=> driver.findElement(By.css('.psh-closer')).click())
+            .catch(()=> assert.ok(false, 'Can not find text with picture on page'))
+    });
+    it('Can see map in about us', function () {
+        return driver.get(OPTIONS.site)
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(4) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.filter-list li:nth-child(4)'))))
+            .then(()=> driver.findElement(By.css('.filter-list li:nth-child(4)')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('#map .gm-style button'))))
+            .catch(()=> assert.ok(false, 'Can not find map on page'))
+    });
+
+    it('Can see answers on questions', function () {
+        return driver.get(OPTIONS.site)
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(5) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.section-content .column ul li:nth-of-type(4)'))))
+            .then(()=> driver.findElement(By.css('.section-content .column ul li:nth-of-type(4)')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.section-content .column ul .active .hidden-txt p'))))
+            .catch(()=> assert.ok(false, 'Can not find answer on selected question'))
+    });
+
+    it('Can see filter of places in contacts', function () {
+        return driver.get(OPTIONS.site)
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(6) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.filter-list li:nth-child(3) a'))))
+            .then(()=> driver.findElement(By.css('.filter-list li:nth-child(3) a')).click())
+            .catch(()=> assert.ok(false, 'Can not find element on page'))
+    });
+    it('Can see selected showroom in contacts', function () {
+        return driver.get(OPTIONS.site)
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(6) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.filter-list li:nth-child(3) a'))))
+            .then(()=> driver.findElement(By.css('.filter-list li:nth-child(3) a')).click())
+            .then(()=> driver.sleep(1000))
+            .then(()=> driver.wait(until.elementLocated(By.css('.close-showroom'))))
+            .then(()=> driver.findElement(By.css('.close-showroom')).click())
+            .catch(()=> assert.ok(false, 'Can not close showroom'))
+    });
+    it('Can see slider of selected showroom in contacts', function () {
+        return driver.get(OPTIONS.site)
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(6) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.filter-list li:nth-child(3) a'))))
+            .then(()=> driver.findElement(By.css('.filter-list li:nth-child(3) a')).click())
+            .then(()=> driver.sleep(1000))
+            .then(()=> driver.wait(until.elementLocated(By.css('.mark-slider .cont-thumbnails-btn svg '))))
+            .catch(()=> assert.ok(false, 'Can not find slider on page'))
+    });
+    it('Can see map of showrooms in contacts', function () {
+        return driver.get(OPTIONS.site)
+            .then(async() => (await getElementByCss('.main-nav li:nth-child(6) a')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('.main-holder .map-image #office2 a'))))
+            .then(()=> driver.findElement(By.css('.main-holder .map-image #office2 a')).click())
+            .then(()=> driver.sleep(1000))
+            .catch(()=> assert.ok(false, 'Can not find element on page'))
+    });
+//TODO:: Should I somehow wright tests for phone numbers on contact page?
 
 });
