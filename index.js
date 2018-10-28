@@ -479,6 +479,18 @@ describe('Asking for a call',function() {
             .then(() => driver.findElement(By.css('fieldset .error input')).getAttribute('name'))
             .then(fieldName => assert.equal(fieldName,'user_name', 'There is no .error in userName label'))
     });
-
+    it('User successfully ask for a call', function() {
+        return driver.get(OPTIONS.site)
+            .then(() => driver.wait(until.elementLocated(By.css('#secCall .left fieldset label:nth-child(1) input'))))
+            .then(() => driver.findElement(By.name('user_name')).clear())
+            .then(() => driver.findElement(By.name('user_name')).sendKeys('fake name'))
+            .then(() => driver.findElement(By.name('user_phone')).clear())
+            .then(() => driver.findElement(By.name('user_phone')).sendKeys('1110011100'))
+            .then(() => driver.findElement(By.css('#secCall .left fieldset button')).click())
+            .then(()=> driver.wait(until.elementLocated(By.css('#thanks h2'))))
+            .then(()=> driver.sleep(1000))
+            .then(()=> driver.findElement(By.css('#thanks h2')).getText())
+            .then(thanks => assert.equal(thanks,'Спасибо!', 'User did not ask for a call'))
+    });
 });
 
