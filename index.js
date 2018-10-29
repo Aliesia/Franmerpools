@@ -5,7 +5,7 @@ const By = webdriver.By;
 const until = webdriver.until;
 const chrome = require('selenium-webdriver/chrome');
 const OPTIONS = {
-    site: 'http://franmer.breakdownfx.com/',
+    site: '',
     screen:{
         width: 1280,
         height: 720
@@ -98,7 +98,7 @@ describe('Main navigation check',function(){
     }
 });
 
-describe('Main page functionality',function() {
+describe('Home page functionality',function() {
     let driver;
     this.timeout(50000);
     beforeEach(function () {
@@ -497,6 +497,7 @@ describe('Ask for a call form',function() {
 describe('Can ask for a cost of selected pool',function() {
     let driver;
     this.timeout(50000);
+
     beforeEach(function () {
         let chromeCapabilities = webdriver.Capabilities.chrome();
         let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen);
