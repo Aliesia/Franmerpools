@@ -20,7 +20,7 @@ describe('Main navigation check',function(){
     this.timeout(10 * 1000);
     beforeEach(function () {
         let chromeCapabilities = webdriver.Capabilities.chrome();
-        let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen);
+        let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen).addArguments('--headless');
         driver = new webdriver.Builder().setChromeOptions(chromeOptions).withCapabilities(chromeCapabilities).build();
         topMenuService = new TopMenuService(OPTIONS, driver);
     });
@@ -58,7 +58,7 @@ describe('Home page functionality',function() {
     this.timeout(50000);
     beforeEach(function () {
         let chromeCapabilities = webdriver.Capabilities.chrome();
-        let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen);
+        let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen).addArguments('--headless');
         driver = new webdriver.Builder().setChromeOptions(chromeOptions).withCapabilities(chromeCapabilities).build();
         homePageService = new HomePageService(OPTIONS, driver);
     });
@@ -105,7 +105,7 @@ describe('Main navigation templates',function(){
     this.timeout(30000);
     beforeEach(function () {
         let chromeCapabilities = webdriver.Capabilities.chrome();
-        let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen);
+        let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen).addArguments('--headless');
         driver = new webdriver.Builder().setChromeOptions(chromeOptions).withCapabilities(chromeCapabilities).build();
         topMenuService = new TopMenuService(OPTIONS, driver);
     });
@@ -184,7 +184,7 @@ describe('Ask for a call form',function() {
     this.timeout(50000);
     beforeEach(function () {
         let chromeCapabilities = webdriver.Capabilities.chrome();
-        let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen);
+        let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen).addArguments('--headless');
         driver = new webdriver.Builder().setChromeOptions(chromeOptions).withCapabilities(chromeCapabilities).build();
         askForCallService = new AskForCallService(OPTIONS, driver);
 
@@ -216,7 +216,7 @@ describe('Can ask for a cost of selected pool',function() {
     this.timeout(50000);
     beforeEach(function () {
         let chromeCapabilities = webdriver.Capabilities.chrome();
-        let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen);
+        let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen).addArguments('--headless');
         driver = new webdriver.Builder().setChromeOptions(chromeOptions).withCapabilities(chromeCapabilities).build();
         askForCostService = new AskForCostService(OPTIONS, driver);
     });
