@@ -54,6 +54,7 @@ const ModelsTemplateTests = function (OPTIONS, driver) {
             .then(async() => (await getElementByCss('.main-nav li:nth-child(2) a')).click())
             .then(async() => (await getElementByCss('.list-models .l-m-item:nth-of-type(2) a')).click())
             .then(async() => (await getElementByCss('#ppb .req-proj-cost')).click())
+           // .then(async() => (await getElementByCss('#action2 button')).click())
             .catch(()=> assert.ok(false, 'Can not find button to ask project cost on page'))
     };
 
