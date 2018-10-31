@@ -17,14 +17,15 @@ const AskForCostService = require('../Services/AskForCostService');
 describe('Main navigation check',function(){
     let topMenuService;
     let driver;
-    this.timeout(10 * 1000);
-    beforeEach(function () {
+    this.timeout(30 * 1000);
+    before(function () {
         let chromeCapabilities = webdriver.Capabilities.chrome();
         let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen).addArguments('--headless');
         driver = new webdriver.Builder().setChromeOptions(chromeOptions).withCapabilities(chromeCapabilities).build();
         topMenuService = new TopMenuService(OPTIONS, driver);
     });
     after(function () {
+
        driver.close();
     });
 
@@ -133,8 +134,6 @@ describe('Main navigation templates',function(){
     it('Can ask project cost', function () {
         return topMenuService.canAskCost();
     });
-
-
     it('Can see picture in Gallery', function(){
         return topMenuService.canSeePictures();
     });
@@ -215,7 +214,7 @@ describe('Can ask for a cost of selected pool',function() {
     this.timeout(50000);
     beforeEach(function () {
         let chromeCapabilities = webdriver.Capabilities.chrome();
-        let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen).addArguments('--headless');
+        let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen);
         driver = new webdriver.Builder().setChromeOptions(chromeOptions).withCapabilities(chromeCapabilities).build();
         askForCostService = new AskForCostService(OPTIONS, driver);
     });
@@ -225,7 +224,6 @@ describe('Can ask for a cost of selected pool',function() {
 
     it('Can enter page with pool cost', function () {
         return askForCostService.canEnterPage();
-
     });
     it('Can see selected pool on page with cost calculate', function () {
         return askForCostService.canSeeSelectedPool();
