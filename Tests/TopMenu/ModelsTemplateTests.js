@@ -53,14 +53,16 @@ const ModelsTemplateTests = function (OPTIONS, driver) {
         return driver.get(OPTIONS.site)
             .then(async() => (await getElementByCss('.main-nav li:nth-child(2) a')).click())
             .then(async() => (await getElementByCss('.list-models .l-m-item:nth-of-type(2) a')).click())
-            .then(()=> driver.wait(until.elementLocated(By.css('#action2 button'))))
+            .then(async() => (await getElementByCss('#ppb .req-proj-cost')).click())
             .catch(()=> assert.ok(false, 'Can not find button to ask project cost on page'))
     };
 
     function getElementByCss(path) {
-        return driver.wait(until.elementLocated(By.css(path)))
-            .then(()=> driver.sleep(1500))
-            .then(()=> driver.findElement(By.css(path)));
+        return driver.sleep(2000)
+            .then(()=> driver.wait(until.elementLocated(By.css(path),8000)))
+            .then(()=> {
+                return driver.findElement(By.css(path))
+            });
     }
 };
 module.exports = ModelsTemplateTests;

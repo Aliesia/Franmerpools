@@ -5,7 +5,7 @@ const OPTIONS = {
     site: 'http://franmer.breakdownfx.com/',
     screen:{
         width: 1280,
-        height: 600
+        height: 720
     }
 };
 const TopMenuService = require('../Services/TopMenuService');
@@ -17,7 +17,7 @@ const AskForCostService = require('../Services/AskForCostService');
 describe('Main navigation check',function(){
     let topMenuService;
     let driver;
-    this.timeout(60 * 1000);
+    this.timeout(10 * 1000);
     beforeEach(function () {
         let chromeCapabilities = webdriver.Capabilities.chrome();
         let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen);

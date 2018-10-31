@@ -56,9 +56,11 @@ const NavigationTests = function (OPTIONS, driver) {
 
 
     function getElementByCss(path) {
-        driver.wait(until.elementLocated(By.css(path)));
-        driver.sleep(2000);
-        return  driver.findElement(By.css(path));
+        return driver.sleep(2000)
+            .then(()=> driver.wait(until.elementLocated(By.css(path),8000)))
+            .then(()=> {
+                return driver.findElement(By.css(path))
+            });
     }
 };
 module.exports = NavigationTests;
