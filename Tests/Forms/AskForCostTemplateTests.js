@@ -5,12 +5,12 @@ const until = webdriver.until;
 
 const AskForCostTemplateTests = function (OPTIONS, driver) {
 
-    this.canEnterPageTest =  function () {
+    this.canEnterPageTest = function () {
         let costTitle = 'ЗАПРОС НА РАСЧЕТ СТОИМОСТИ';
         return driver.get(OPTIONS.site)
-            .then(async() => (await getElementByCss('.progress')))
+            //.then(async() => (await getElementByCss('main #secStart footer svg')))
             .then(async() => (await getElementByCss('.main-nav li:nth-child(2) a')).click())
-            .then(async() => (await getElementByCss('.list-models .l-m-item:nth-of-type(2) a')).click())
+            .then(async() => (await getElementByCss('main .list-models .l-m-item:nth-of-type(2) a')).click())
             .then(async() => (await getElementByCss('#ppb .req-proj-cost')).click())
             .then(async() => (await getElementByCss('#req h2')).getText())
             .then(titleData=> assert.equal(titleData, costTitle, 'Can not enter page with cost calculate'))
@@ -221,10 +221,11 @@ const AskForCostTemplateTests = function (OPTIONS, driver) {
 
 
     function getElementByCss(path) {
-        driver.wait(until.elementLocated(By.css(path)), 4000);
-        driver.sleep(2000);
-        return driver.findElement(By.css(path));
-
+        return driver.sleep(2000)
+            .then(()=> driver.wait(until.elementLocated(By.css(path),8000)))
+            .then(()=> {
+                return driver.findElement(By.css(path))
+            });
     }
 };
 module.exports = AskForCostTemplateTests;
