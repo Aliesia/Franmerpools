@@ -1,5 +1,5 @@
 const webdriver = require('selenium-webdriver');
-const {describe,it,afterEach,beforeEach} = require('mocha');
+const {describe,it,afterEach,beforeEach, before, after} = require('mocha');
 const chrome = require('selenium-webdriver/chrome');
 const OPTIONS = {
     site: 'http://franmer.breakdownfx.com/',
@@ -24,8 +24,7 @@ describe('Main navigation check',function(){
         driver = new webdriver.Builder().setChromeOptions(chromeOptions).withCapabilities(chromeCapabilities).build();
         topMenuService = new TopMenuService(OPTIONS, driver);
     });
-
-    afterEach(function () {
+    after(function () {
        driver.close();
     });
 
@@ -56,13 +55,13 @@ describe('Home page functionality',function() {
     let driver;
     let homePageService;
     this.timeout(50000);
-    beforeEach(function () {
+    before(function () {
         let chromeCapabilities = webdriver.Capabilities.chrome();
         let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen).addArguments('--headless');
         driver = new webdriver.Builder().setChromeOptions(chromeOptions).withCapabilities(chromeCapabilities).build();
         homePageService = new HomePageService(OPTIONS, driver);
     });
-    afterEach(function () {
+    after(function () {
         driver.close();
     });
 
@@ -103,13 +102,13 @@ describe('Main navigation templates',function(){
     let driver;
     let topMenuService;
     this.timeout(30000);
-    beforeEach(function () {
+    before(function () {
         let chromeCapabilities = webdriver.Capabilities.chrome();
         let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen).addArguments('--headless');
         driver = new webdriver.Builder().setChromeOptions(chromeOptions).withCapabilities(chromeCapabilities).build();
         topMenuService = new TopMenuService(OPTIONS, driver);
     });
-    afterEach(function () {
+    after(function () {
         driver.close();
     });
 
