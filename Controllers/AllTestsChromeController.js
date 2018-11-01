@@ -14,7 +14,7 @@ const AskForCallService = require('../Services/AskForCallService');
 const AskForCostService = require('../Services/AskForCostService');
 
 
-describe('Main navigation check',function(){
+describe('Navigation',function(){
     let topMenuService;
     let driver;
     this.timeout(30 * 1000);
@@ -52,7 +52,7 @@ describe('Main navigation check',function(){
     });
 });
 
-describe('Home page functionality',function() {
+describe('Home Page',function() {
     let driver;
     let homePageService;
     this.timeout(50000);
@@ -99,7 +99,7 @@ describe('Home page functionality',function() {
 });
 
 
-describe('Main navigation templates',function(){
+describe('Top menu',function(){
     let driver;
     let topMenuService;
     this.timeout(30000);
@@ -176,7 +176,7 @@ describe('Main navigation templates',function(){
 });
 
 
-describe('Ask for a call form',function() {
+describe('Call form',function() {
     let driver;
     let askForCallService;
     this.timeout(50000);
@@ -208,7 +208,7 @@ describe('Ask for a call form',function() {
     });
 });
 
-describe('Can ask for a cost of selected pool',function() {
+describe('Cost form',function() {
     let driver;
     let askForCostService;
     this.timeout(50000);

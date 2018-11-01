@@ -5,11 +5,17 @@
   "main": "index.js",
   "dependencies": {
     "asserts": "^4.0.2",
-    "mocha": "^5.2.0",
     "selenium-webdriver": "^4.0.0-alpha.1"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "testAllChrome": "mocha Controllers/AllTestsChromeController.js",
+    "testNavigation": "mocha Controllers/AllTestsChromeController.js -f  \"Navigation\"",
+    "testHomePage": "mocha Controllers/AllTestsChromeController.js -f  \"Home Page\"",
+    "testTopMenu": "mocha Controllers/AllTestsChromeController.js -f  \"Top menu\"",
+    "testCallForm": "mocha Controllers/AllTestsChromeController.js -f  \"Call form\"",
+    "testCostForm": "mocha Controllers/AllTestsChromeController.js -f  \"Cost form\"",
+    "testEdge": "mocha Controllers/AllTestEdgeController.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +26,9 @@
   "bugs": {
     "url": "https://github.com/Aliesia/Franmerpools/issues"
   },
-  "homepage": "https://github.com/Aliesia/Franmerpools#readme"
+  "homepage": "https://github.com/Aliesia/Franmerpools#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  }
 }
