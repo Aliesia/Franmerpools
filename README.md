@@ -1,7 +1,5 @@
-# Franmerpools 2018 project
+# SetUp Gide for Windows 10
 ## GUI tests on Chrome
-## SetUp Gide for Windows 10:
-
 1.Clone repository to a local folder. In console(terminal):
 ```
 git clone https://github.com/Aliesia/Franmerpools.git
@@ -11,7 +9,7 @@ Windows:
 Download the Windows installer from Nodejs.org.(find LTS Windows Installer (.msi) for 64-bit)
 Run the installer (the .msi file you downloaded in the previous step.)
 Follow the prompts in the installer (Accept the license agreement, click the NEXT button a bunch of times and accept the default installation settings).
----> *check the NodeJs was installed(In terminal):
+---> check the NodeJs was installed(In terminal):
 ```
 node -v
 ```
@@ -31,7 +29,7 @@ select latest version than download
 file:chromedriver_win32.zip
 ```
 Move Chromedriver to Windows folder
----> *check the Chromedriver was installed(In terminal):
+---> check the Chromedriver was installed(In terminal):
 ```
 chromedriver -v
 ```
@@ -44,7 +42,7 @@ or as a development dependency for your project:
 ```
 npm install --save-dev mocha
 ```
----> *check the Mocha was installed(In terminal):
+---> check the Mocha was installed(In terminal):
 ```
 mocha-v
 ```
@@ -53,7 +51,7 @@ type in Terminal:
 ```
 npm install chai
 ```
----> *check the Chai was installed(In terminal):
+---> check the Chai was installed(In terminal):
 ```
 chai -v
 ```
