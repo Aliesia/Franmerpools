@@ -47,6 +47,8 @@ const HomePageTemplatesTests = function (OPTIONS, driver) {
     this.swipeButtonTest = function () {
     let initialSlide = 0;
     return driver.get(OPTIONS.site)
+        .then(async () => (await getElementByCss('#secShowrooms')))
+        .then ((element) =>  driver.actions({bridge:true}).move({origin: element}).perform())
         .then(async () => (await getElementByCss('#secShowrooms .glider ul')).getAttribute('style'))
         .then(tempData => initialSlide = tempData)
         .then(async () => (await getElementByCss('#secShowrooms .glider .right')).click())
@@ -61,6 +63,8 @@ const HomePageTemplatesTests = function (OPTIONS, driver) {
     this.workerOnTeamImageTest = function () {
         let initialHuman = 0;
         return driver.get(OPTIONS.site)
+            .then(async () => (await getElementByCss('#secFeedback')))
+            .then ((element) =>  driver.actions({bridge:true}).move({origin: element}).perform())
             .then(async () => (await getElementByCss('#secTeam #teamWrap li')).getAttribute('data-n'))
             .then(tempData => initialHuman = tempData)
             .then(async () => (await getElementByCss('#secTeam #teamWrap li:nth-child(2)')).getAttribute('data-n'))
@@ -73,8 +77,8 @@ const HomePageTemplatesTests = function (OPTIONS, driver) {
     };
 
     function getElementByCss(path) {
-        return driver.sleep(2000)
-            .then(()=> driver.wait(until.elementLocated(By.css(path),8000)))
+        return driver.wait(until.elementLocated(By.css(path), 8000))
+            .then(() => driver.sleep(1000))
             .then(()=> {
                 return driver.findElement(By.css(path))
             });

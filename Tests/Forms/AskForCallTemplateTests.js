@@ -2,6 +2,11 @@ const webdriver = require('selenium-webdriver');
 const assert = require('assert');
 const By = webdriver.By;
 const until = webdriver.until;
+const {describe} = require('mocha')
+const fakeUserData = {
+	name:'fake_name',
+	phone:'123321444'
+}
 
 const AskForCallTemplateTests = function (OPTIONS, driver) {
 
@@ -23,11 +28,9 @@ const AskForCallTemplateTests = function (OPTIONS, driver) {
     this.canNotLeaveEmptyFormTest =  function () {
         return driver.get(OPTIONS.site)
             .then(async () => (await getElementByCss('#secCall .left fieldset label:nth-child(1) input')))
-            .then(() => driver.findElement(By.name('user_name')).clear())
-            .then(() => driver.findElement(By.name('user_name')).sendKeys(''))
-            .then(() => driver.findElement(By.name('user_phone')).clear())
-            .then(() => driver.findElement(By.name('user_phone')).sendKeys(''))
-            .then(() => driver.findElement(By.css('.phpdebugbar-close-btn')).click())
+            .then(() => setUserName(''))
+            .then(() => setUserPhone(''))
+            .then(() => offDebugBar())
             .then(async () => (await getElementByCss('#secCall .left fieldset button')).click())
             .then(()=> driver.findElements(By.css('fieldset .error')))
             .then(elements => {
@@ -37,13 +40,12 @@ const AskForCallTemplateTests = function (OPTIONS, driver) {
             })
     };
     this.emptyUserPhoneTest =  function () {
+    
         return driver.get(OPTIONS.site)
-            .then(async () => (await getElementByCss('#secCall .left fieldset label:nth-child(1) input')))
-            .then(() => driver.findElement(By.name('user_name')).clear())
-            .then(() => driver.findElement(By.name('user_name')).sendKeys('fake_name'))
-            .then(() => driver.findElement(By.name('user_phone')).clear())
-            .then(() => driver.findElement(By.name('user_phone')).sendKeys(''))
-            .then(() => driver.findElement(By.css('.phpdebugbar-close-btn')).click())
+            .then(async() => (await getElementByCss('#secCall .left fieldset label:nth-child(1) input')))    
+            .then(() => setUserName(fakeUserData.name))
+         	.then(() => setUserPhone(''))
+            .then(() => offDebugBar())
             .then(async () => (await getElementByCss('#secCall .left fieldset button')).click())
             .then(async () => (await getElementByCss('fieldset .error input')).getAttribute('name'))
             .then(fieldName => assert.equal(fieldName,'user_phone', 'There is no .error in userPhone label'))
@@ -51,11 +53,9 @@ const AskForCallTemplateTests = function (OPTIONS, driver) {
     this.emptyUserNameTest =  function () {
         return driver.get(OPTIONS.site)
             .then(async () => (await getElementByCss('#secCall .left fieldset label:nth-child(1) input')))
-            .then(() => driver.findElement(By.name('user_name')).clear())
-            .then(() => driver.findElement(By.name('user_name')).sendKeys(''))
-            .then(() => driver.findElement(By.name('user_phone')).clear())
-            .then(() => driver.findElement(By.name('user_phone')).sendKeys('1110011100'))
-            .then(() => driver.findElement(By.css('.phpdebugbar-close-btn')).click())
+            .then(() => setUserName(''))
+            .then(() => setUserPhone(fakeUserData.phone))
+            .then(() => offDebugBar())
             .then(async () => (await getElementByCss('#secCall .left fieldset button')).click())
             .then(async () => (await getElementByCss('fieldset .error input')).getAttribute('name'))
             .then(fieldName => assert.equal(fieldName,'user_name', 'There is no .error in userName label'))
@@ -63,23 +63,37 @@ const AskForCallTemplateTests = function (OPTIONS, driver) {
     this.canSuccessfullyAskForCallTest =  function () {
         return driver.get(OPTIONS.site)
             .then(async () => (await getElementByCss('#secCall .left input')))
-            .then(() => driver.findElement(By.name('user_name')).clear())
-            .then(() => driver.findElement(By.name('user_name')).sendKeys('fake name'))
-            .then(() => driver.findElement(By.name('user_phone')).clear())
-            .then(() => driver.findElement(By.name('user_phone')).sendKeys('1110011100'))
-            .then(() => driver.findElement(By.css('.phpdebugbar-close-btn')).click())
+            .then(() => setUserName(fakeUserData.name))
+         	.then(() => setUserPhone(fakeUserData.phone))
+            .then(() => offDebugBar())
             .then(async () => (await getElementByCss('#secCall .left fieldset button')).click())
             .then(async () => (await getElementByCss('#thanks h2')).getText())
             .then(thanks => assert.equal(thanks,'Спасибо!', 'User did not ask for a call'))
     };
 
-
-    function getElementByCss(path) {
-        return driver.sleep(2000)
-            .then(()=> driver.wait(until.elementLocated(By.css(path),8000)))
+  function getElementByCss(path) {
+        return driver.wait(until.elementLocated(By.css(path), 8000))
+            .then(() => driver.sleep(1000))
             .then(()=> {
                 return driver.findElement(By.css(path))
             });
     }
+    function setUserName(userName){
+    	 driver
+    	 	.then(() => driver.findElement(By.name('user_name')).click())
+            .then(() => driver.findElement(By.name('user_name')).clear())
+            .then(() => driver.findElement(By.name('user_name')).sendKeys(userName))
+    }
+    function setUserPhone(userPhone){
+    	 driver
+    	 	.then(() => driver.findElement(By.name('user_phone')).click())
+            //.then(() => driver.findElement(By.name('user_phone')).clear())
+            .then(() => driver.findElement(By.name('user_phone')).sendKeys(userPhone))
+    }
+    function offDebugBar(){
+		driver.findElement(By.css('.phpdebugbar-close-btn')).click()
+            .catch(() => {});
+	};
+
 };
 module.exports = AskForCallTemplateTests;

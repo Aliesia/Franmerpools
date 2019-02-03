@@ -188,7 +188,7 @@ describe('Call form',function() {
 
     });
     afterEach(function () {
-        driver.close();
+      driver.close();
     });
 
     it('Can see form template on main page', function(){
@@ -214,7 +214,7 @@ describe('Cost form',function() {
     this.timeout(50000);
     beforeEach(function () {
         let chromeCapabilities = webdriver.Capabilities.chrome();
-        let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen);
+        let chromeOptions = new chrome.Options().windowSize(OPTIONS.screen).addArguments('--headless');
         driver = new webdriver.Builder().setChromeOptions(chromeOptions).withCapabilities(chromeCapabilities).build();
         askForCostService = new AskForCostService(OPTIONS, driver);
     });

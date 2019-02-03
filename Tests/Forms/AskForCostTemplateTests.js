@@ -2,14 +2,18 @@ const webdriver = require('selenium-webdriver');
 const assert = require('assert');
 const By = webdriver.By;
 const until = webdriver.until;
-
+const testUserData = {
+    name:'fake_name',
+    phone:'123321444',
+    email: 'fake'+ Math.random().toString(36).substring(6)+ '@test.com',
+    message:'this is the end',
+    empty:''
+}
 const AskForCostTemplateTests = function (OPTIONS, driver) {
 
     this.canEnterPageTest = function () {
         let costTitle = 'ЗАПРОС НА РАСЧЕТ СТОИМОСТИ';
-        return driver.get(OPTIONS.site)
-            .then(async() => (await getElementByCss('.main-nav li:nth-child(2) a')).click())
-            .then(async() => (await getElementByCss('main .list-models .l-m-item:nth-of-type(2) a')).click())
+        return driver.get(OPTIONS.site +'modeli/olimpik')
             .then(async() => (await getElementByCss('#ppb .req-proj-cost')).click())
             //.then(async() => (await getElementByCss('#action2 .btn')).click())
             .then(async() => (await getElementByCss('#req h2')).getText())
@@ -28,9 +32,7 @@ const AskForCostTemplateTests = function (OPTIONS, driver) {
             .then(selectedPool=> assert.equal(selectedPool, poolModel, 'It is not selected pool'))
     };
     this.canSeeFormTest =  function () {
-        return driver.get(OPTIONS.site)
-            .then(async() => (await getElementByCss('.main-nav li:nth-child(2) a')).click())
-            .then(async() => (await getElementByCss('.list-models .l-m-item:nth-of-type(2) a')).click())
+        return driver.get(OPTIONS.site +'modeli/olimpik')
             .then(async() => (await getElementByCss('#ppb .req-proj-cost')).click())
             //.then(async() => (await getElementByCss('#action2 button')).click())
             .then(() => driver.wait(until.elementLocated(By.css('.fields form'))))
@@ -43,13 +45,10 @@ const AskForCostTemplateTests = function (OPTIONS, driver) {
             .then(async () => (await getElementByCss('#ppb .req-proj-cost')).click())
             //.then(async() => (await getElementByCss('#action2 button')).click())
             .then(() => driver.wait(until.elementLocated(By.css('.fields form fieldset label:nth-child(1) input'))))
-            .then(() => driver.findElement(By.name('user_name')).clear())
-            .then(() => driver.findElement(By.name('user_name')).sendKeys(''))
-            .then(() => driver.findElement(By.name('user_email')).clear())
-            .then(() => driver.findElement(By.name('user_email')).sendKeys(''))
-            .then(() => driver.findElement(By.name('user_phone')).clear())
-            .then(() => driver.findElement(By.name('user_phone')).sendKeys(''))
-            .then(() => driver.findElement(By.css('.phpdebugbar-close-btn')).click())
+            .then(() => setInput('user_name', testUserData.empty))
+            .then(() => setInput('user_email', testUserData.empty))
+            .then(() => setInput('user_phone', testUserData.empty))
+            .then(() => offDebugBar())
             .then(async () => (await getElementByCss('#sub-btn button')).click())
             .then(()=> driver.findElements(By.css('fieldset .error')))
             .then(elements => {
@@ -59,9 +58,7 @@ const AskForCostTemplateTests = function (OPTIONS, driver) {
             })
     };
     this.canSeeRequiredFieldsTest =  function () {
-        return driver.get(OPTIONS.site)
-            .then(async() => (await getElementByCss('.main-nav li:nth-child(2) a')).click())
-            .then(async() => (await getElementByCss('.list-models .l-m-item:nth-of-type(2) a')).click())
+        return driver.get(OPTIONS.site +'modeli/olimpik')
             .then(async() => (await getElementByCss('#ppb .req-proj-cost')).click())
             //.then(async() => (await getElementByCss('#action2 button')).click())
             .then(async() => (await getElementByCss('.fields form fieldset label:nth-child(1) input')).getAttribute('required'))
@@ -84,97 +81,83 @@ const AskForCostTemplateTests = function (OPTIONS, driver) {
             })
     };
     this.emptyUserNameTest =  function () {
-        return driver.get(OPTIONS.site)
-            .then(async () => (await getElementByCss('.main-nav li:nth-child(2) a')).click())
-            .then(async () => (await getElementByCss('.list-models .l-m-item:nth-of-type(2) a')).click())
+        return driver.get(OPTIONS.site +'modeli/olimpik')
             .then(async () => (await getElementByCss('#ppb .req-proj-cost')).click())
             //.then(async() => (await getElementByCss('#action2 button')).click())
             .then(() => driver.wait(until.elementLocated(By.css('.fields form fieldset label:nth-child(1) input'))))
-            .then(() => driver.findElement(By.name('user_name')).clear())
-            .then(() => driver.findElement(By.name('user_name')).sendKeys(''))
-            .then(() => driver.findElement(By.name('user_email')).clear())
-            .then(() => driver.findElement(By.name('user_email')).sendKeys('fake'+ Math.random().toString(36).substring(6)+ '@test.com'))
-            .then(() => driver.findElement(By.name('user_phone')).clear())
-            .then(() => driver.findElement(By.name('user_phone')).sendKeys('1110011100'))
-            //.then(() => driver.findElement(By.css('.phpdebugbar-close-btn')).click())
+            .then(() => setInput('user_name',testUserData.empty))
+            .then(() => setInput('user_email',testUserData.email))
+            .then(() => setInput('user_phone', testUserData.phone))
+            //.then(() => offDebugBar())
             .then(async () => (await getElementByCss('#sub-btn button')).click())
             .then(async () => (await getElementByCss('fieldset .error input')).getAttribute('name'))
             .then(fieldName => assert.equal(fieldName,'user_name', 'There is no .error in userName label'))
     };
     this.emptyUserEmailTest =  function () {
-        return driver.get(OPTIONS.site)
-            .then(async () => (await getElementByCss('.main-nav li:nth-child(2) a')).click())
-            .then(async () => (await getElementByCss('.list-models .l-m-item:nth-of-type(2) a')).click())
+        return driver.get(OPTIONS.site +'modeli/olimpik')
             .then(async () => (await getElementByCss('#ppb .req-proj-cost')).click())
             //.then(async() => (await getElementByCss('#action2 button')).click())
             .then(() => driver.wait(until.elementLocated(By.css('.fields form fieldset label:nth-child(1) input'))))
-            .then(() => driver.findElement(By.name('user_name')).clear())
-            .then(() => driver.findElement(By.name('user_name')).sendKeys('fake_name'))
-            .then(() => driver.findElement(By.name('user_email')).clear())
-            .then(() => driver.findElement(By.name('user_email')).sendKeys(''))
-            .then(() => driver.findElement(By.name('user_phone')).clear())
-            .then(() => driver.findElement(By.name('user_phone')).sendKeys('1110011100'))
-            .then(() => driver.findElement(By.css('.phpdebugbar-close-btn')).click())
+            .then(() => setInput('user_name',testUserData.name))
+            .then(() => setInput('user_email',testUserData.empty))
+            .then(() => setInput('user_phone', testUserData.phone))
+            .then(() => offDebugBar())
             .then(async () => (await getElementByCss('#sub-btn button')).click())
             .then(async () => (await getElementByCss('fieldset .error input')).getAttribute('name'))
             .then(fieldName => assert.equal(fieldName,'user_email', 'There is no .error in userEmail label'))
     };
     this.emptyUserPhoneTest =  function () {
-        return driver.get(OPTIONS.site)
-            .then(async () => (await getElementByCss('.main-nav li:nth-child(2) a')).click())
-            .then(async () => (await getElementByCss('.list-models .l-m-item:nth-of-type(2) a')).click())
+        return driver.get(OPTIONS.site +'modeli/olimpik')
             .then(async () => (await getElementByCss('#ppb .req-proj-cost')).click())
             //.then(async() => (await getElementByCss('#action2 button')).click())
             .then(() => driver.wait(until.elementLocated(By.css('.fields form fieldset label:nth-child(1) input'))))
-            .then(() => driver.findElement(By.name('user_name')).clear())
-            .then(() => driver.findElement(By.name('user_name')).sendKeys('fake_name'))
-            .then(() => driver.findElement(By.name('user_email')).clear())
-            .then(() => driver.findElement(By.name('user_email')).sendKeys('fake'+ Math.random().toString(36).substring(6)+ '@test.com'))
-            .then(() => driver.findElement(By.name('user_phone')).clear())
-            .then(() => driver.findElement(By.name('user_phone')).sendKeys(''))
-            .then(() => driver.findElement(By.css('.phpdebugbar-close-btn')).click())
+            .then(() => setInput('user_name',testUserData.name))
+            .then(() => setInput('user_email',testUserData.email))
+            .then(() => setInput('user_phone',testUserData.empty))
+            .then(() => offDebugBar())
             .then(async () => (await getElementByCss('#sub-btn button')).click())
             .then(async () => (await getElementByCss('fieldset .error input')).getAttribute('name'))
             .then(fieldName => assert.equal(fieldName,'user_phone', 'There is no .error in userPhone label'))
     };
     this.canRequestCostTest =  function () {
-        return driver.get(OPTIONS.site)
-            .then(async () => (await getElementByCss('.main-nav li:nth-child(2) a')).click())
-            .then(async () => (await getElementByCss('.list-models .l-m-item:nth-of-type(2) a')).click())
+        return driver.get(OPTIONS.site +'modeli/olimpik')
             .then(async () => (await getElementByCss('#ppb .req-proj-cost')).click())
             //.then(async() => (await getElementByCss('#action2 button')).click())
             .then(() => driver.wait(until.elementLocated(By.css('.fields form fieldset label:nth-child(1) input'))))
-            .then(() => driver.findElement(By.name('user_name')).clear())
-            .then(() => driver.findElement(By.name('user_name')).sendKeys('fake_name'))
-            .then(() => driver.findElement(By.name('user_email')).clear())
-            .then(() => driver.findElement(By.name('user_email')).sendKeys('fake'+ Math.random().toString(36).substring(6)+ '@test.com'))
-            .then(() => driver.findElement(By.name('user_phone')).clear())
-            .then(() => driver.findElement(By.name('user_phone')).sendKeys('1110011100'))
-            .then(() => driver.findElement(By.name('user_message')).clear())
-            .then(() => driver.findElement(By.name('user_message')).sendKeys('My message is here!'))
-            .then(() => driver.findElement(By.css('.phpdebugbar-close-btn')).click())
-            .then(() => driver.findElement(By.css('.cstm-checkbox')).click())
+            .then(() => setInput('user_name',testUserData.name))
+            .then(() => setInput('user_email',testUserData.email))
+            .then(() => setInput('user_phone',testUserData.phone))
+            .then(() => setInput('user_message',testUserData.message))
+            .then(() => offDebugBar())
+           // .then(() => driver.findElement(By.css('.cstm-checkbox')).click())
             .then(async () => (await getElementByCss('#sub-btn button')).click())
             .catch(() => assert.ok(false,'can not find button'))
     };
     this.canSeeMapTest =  function () {
-        return driver.get(OPTIONS.site)
-            .then(async () => (await getElementByCss('.main-nav li:nth-child(2) a')).click())
-            .then(async () => (await getElementByCss('.list-models .l-m-item:nth-of-type(2) a')).click())
+        return driver.get(OPTIONS.site +'modeli/olimpik')
             .then(async () => (await getElementByCss('#ppb .req-proj-cost')).click())
-            //.then(async() => (await getElementByCss('#action2 button')).click())
-            .then(() => driver.findElement(By.css('.phpdebugbar-close-btn')).click())
-            .then(async () => (await getElementByCss('section #map ul li')).click())
+            .then(() => offDebugBar())
+            .then(async () => (await getElementByCss('section #rmap ul li')).click())
             .catch(() => assert.ok(false,'can not find a map'))
     };
 
+    function setInput(fieldName,userName){
+         driver
+            .then(() => driver.findElement(By.name(fieldName)).click())
+            .then(() => driver.findElement(By.name(fieldName)).clear())
+            .then(() => driver.findElement(By.name(fieldName)).sendKeys(userName))
+    }
 
     function getElementByCss(path) {
-        return driver.sleep(2000)
-            .then(()=> driver.wait(until.elementLocated(By.css(path),8000)))
+        return driver.wait(until.elementLocated(By.css(path), 8000))
+            .then(() => driver.sleep(3000))
             .then(()=> {
                 return driver.findElement(By.css(path))
             });
     }
+    function offDebugBar(){
+        driver.findElement(By.css('.phpdebugbar-close-btn')).click()
+            .catch(() => {});
+    };
 };
 module.exports = AskForCostTemplateTests;

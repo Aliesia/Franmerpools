@@ -33,8 +33,8 @@ const ContactsTemplateTests = function (OPTIONS, driver) {
     };
 
     function getElementByCss(path) {
-        return driver.sleep(2000)
-            .then(()=> driver.wait(until.elementLocated(By.css(path),8000)))
+        return driver.wait(until.elementLocated(By.css(path), 8000))
+            .then(() => driver.sleep(1000))
             .then(()=> {
                 return driver.findElement(By.css(path))
             });

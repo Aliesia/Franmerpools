@@ -1,5 +1,4 @@
 const AskForCallTemplateTests = require('../Tests/Forms/AskForCallTemplateTests');
-
 const AskForCallService = function (OPTIONS, driver) {
     let askForCall = new AskForCallTemplateTests(OPTIONS, driver);
 
@@ -7,7 +6,7 @@ const AskForCallService = function (OPTIONS, driver) {
         return askForCall.canSeeFormTest();
     };
     this.canNotLeaveEmptyForm = function () {
-        return askForCall.canNotLeaveEmptyFormTest();
+         return askForCall.canNotLeaveEmptyFormTest()
     };
     this.emptyUserPhone = function () {
         return askForCall.emptyUserPhoneTest();

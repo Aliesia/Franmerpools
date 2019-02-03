@@ -93,8 +93,11 @@ describe('Main navigation check',function(){
 
 
     function getElementByCss(path) {
-        return driver.wait(until.elementLocated(By.css(path)))
-            .then(()=> driver.findElement(By.css(path)));
+        return driver.wait(until.elementLocated(By.css(path), 8000))
+            .then(() => driver.sleep(1000))
+            .then(()=> {
+                return driver.findElement(By.css(path))
+            });
     }
 });
 
@@ -208,10 +211,12 @@ describe('Main navigation templates',function(){
     afterEach(function () {
         driver.close();
     });
-    function getElementByCss(path) {
-        return driver.wait(until.elementLocated(By.css(path)))
-            .then(()=> driver.sleep(1500))
-            .then(()=> driver.findElement(By.css(path)));
+   function getElementByCss(path) {
+        return driver.wait(until.elementLocated(By.css(path), 8000))
+            .then(() => driver.sleep(1000))
+            .then(()=> {
+                return driver.findElement(By.css(path))
+            });
     }
     it('Can see filter of models', function () {
         return driver.get(OPTIONS.site)
@@ -730,7 +735,10 @@ describe('Can ask for a cost of selected pool',function() {
     //TODO:: can not get to selected sell-point.
 
     function getElementByCss(path) {
-        return driver.wait(until.elementLocated(By.css(path)))
-            .then(()=> driver.findElement(By.css(path)));
+        return driver.wait(until.elementLocated(By.css(path), 8000))
+            .then(() => driver.sleep(1000))
+            .then(()=> {
+                return driver.findElement(By.css(path))
+            });
     }
 });
